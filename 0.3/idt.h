@@ -1,8 +1,6 @@
 #ifndef IDH_H
 #define IDT_H
 
-#include <types.h>
-
 unsigned int* getbaseidt(void);
 unsigned int* getbasegdt(void);  
 unsigned int getbaseldt(void);

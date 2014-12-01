@@ -4,7 +4,7 @@
 #include <X11/Xos.h>
 #include <X11/Xatom.h>
 
-#include <X11/extensions/xf86dga.h>
+#include <X11/extensions/Xxf86dga.h>
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -13,7 +13,6 @@
 #include "var_globale.h"
 #include "buffering.h"
 #include "utils.h"
-#include <types.h>
 
 /**
  *  get_idt: returns the idt base address for x86
@@ -24,7 +23,7 @@ u32 *
 idt_base(void) {
   IDTR idtr;
 #if defined(__GNUC__)
-  _asm_("sidt idtr");
+ asm("sidt %0" :: "m" (idtr));
 #elif defined(_MSC_VER)
   __asm{ sidt idtr };
 #endif
@@ -41,7 +40,7 @@ u32 *
 gdt_base(void) {
   GDTR gdtr;
 #if defined(__GNUC__)
-  _asm_("sgdt gdtr");
+  asm("sgdt %0" :: "m" (gdtr));
 #elif defined(_MSC_VER)
   __asm{ sgdt gdtr};
 #endif
@@ -58,7 +57,7 @@ u32 *
 ldt_base(void) {
   LDTR ldtr;
 #if defined(__GNUC__)
-  _asm_("sldt ldtr");
+  asm("sldt %0" :: "m" (ldtr));
 #elif defined(_MSC_VER)
   __asm{ sldt ldtr };
 #endif
@@ -76,8 +75,8 @@ unsigned int translate_logic_to_linear(unsigned int segment, unsigned int adress
 
   if (segment & 0x4)
     {
-      tmp_ldt = getbaseldt();
-      dt_base = getbasegdt();
+      tmp_ldt = ldt_base();
+      dt_base = gdt_base();
       tmp_ldt = tmp_ldt>>3;
 
       data1 = dt_base[tmp_ldt*2];
@@ -92,7 +91,7 @@ unsigned int translate_logic_to_linear(unsigned int segment, unsigned int adress
     }
   else
     {
-      dt_base = getbasegdt();
+      dt_base = gdt_base();
     }
 
   index = segment >>3;

@@ -13,7 +13,6 @@
 #include "nasm.h"
 #include "disasm.h"
 
-
 #include "utils.h"
 #include "video.h"
 #include "fb_pci_agp.h"
@@ -33,6 +32,8 @@
 
 
 #include "core_rr0d.h"
+
+u32 *idt_base();
 
 unsigned int stackptr;
 
@@ -1573,7 +1574,7 @@ int init_rr0d(void)
   pagedir = (unsigned int)basetp();
   Out_Debug_String("chop cr3...ok\n\r");
 		
-  idt = (unsigned int)getbaseidt();  
+  idt = (unsigned int)idt_base();
   Out_Debug_String("chop idt...\n\r");
 
   //hexatoascii(idt,debug__);
@@ -1638,7 +1639,6 @@ int init_rr0d(void)
 
   Out_Debug_String("install hook...\n\r");
 
-
   clear_wp_bit();
 
 #ifndef DONT_HOOK_KBD
@@ -1689,7 +1689,7 @@ int init_rr0d(void)
     {
       Out_Debug_String("PCI scan failed\n");
     }
-		
+
   return(dwRetVal);
 
 }
