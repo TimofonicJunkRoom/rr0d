@@ -33,7 +33,7 @@
 
 #include "core_rr0d.h"
 
-u32 *idt_base();
+u32 *idt_base(void);
 
 unsigned int stackptr;
 

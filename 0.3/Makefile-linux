@@ -7,23 +7,27 @@
 # $Id: Makefile-linux,v 1.7 2007-01-06 17:49:09 serpilliere Exp $
 #
 
+KERNEL_DIR ?= /lib/modules/$(shell uname -r)/build
+PWD = $(shell pwd)
 
-CC = gcc
-LD = ld
-CFLAGS = -c -I /usr/src/linux/include -I .  -Wall
-LFLAGS = -r
-OBJ = utils.o breakpoint.o buffering.o command.o disasmbak.o idt.o keyboard.o page.o video.o core_rr0d.o import_symb.o module_nux.o pci.o
-MODULE = rr0d.o
+obj-m     += rr0d.o
+rr0d-objs := utils.o \
+             breakpoint.o \
+             buffering.o \
+             command.o \
+             disasmbak.o \
+             idt.o \
+             keyboard.o \
+             page.o \
+             video.o \
+             core_rr0d.o \
+             import_symb.o \
+             module_nux.o \
+             pci.o
 
-all: $(MODULE)
-
-
-
-$(MODULE): $(OBJ)
-	$(LD) $(LFLAGS) -o $@ $(OBJ)
-
-%.o: %.c
-	$(CC) $(CFLAGS) $<
+default: all
+all:
+	make -C $(KERNEL_DIR) M=$(PWD) modules
 
 clean:
-	rm -f *.o *~ Makefile-depend
+	make -C $(KERNEL_DIR) M=$(PWD) clean
