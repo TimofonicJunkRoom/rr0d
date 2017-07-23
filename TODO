@@ -1,0 +1,5 @@
+TOD0
+
+Rr0d doesn't check the eflag overwrite during trace time. So an application can "untrace" to avoid it: Rr0d has to emulate eflag manipulation. Rr0d should emulate cli/sti manipulation too.
+An inline assembler should be added in order to dynamik recompile Assembly instructions.
+The *Ultimate Weapon* could be to implement a script language.
